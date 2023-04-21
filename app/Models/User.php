@@ -7,10 +7,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -63,4 +64,19 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    // public function userRoles(): array
+    // {
+    //     return $this->roles->transform(function (\Spatie\Permission\Models\Role $role) {
+    //         return $role;
+    //     })->pluck('name', 'id')->toArray();
+    // }
+
+    // public function userPermissions(): array
+    // {
+    //     return $this->getAllPermissions()->transform(function (\Spatie\Permission\Models\Permission $permission) {
+    //         return $permission;
+    //     })->pluck('name', 'id')->toArray();
+    // }
+
 }

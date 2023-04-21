@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
 class Plant extends Model
@@ -27,4 +28,9 @@ class Plant extends Model
         'diseases'
     ];
     use HasFactory;
+
+    public function categories()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LogoutController extends Controller
 {
-    public function __invoke(Request $request)
+    public function logout(Request $request)
     {
         $userManager = app(UserManager::class, ['user' => Auth::user()]);
         $userManager->logout();

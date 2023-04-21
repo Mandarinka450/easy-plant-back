@@ -7,12 +7,15 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\UserManager;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
-    public function __invoke(RegisterRequest $request){
+    public function register(RegisterRequest $request){
+        
         $remember=false;
         $email = $request->input('email');
         $password = $request->input('password');

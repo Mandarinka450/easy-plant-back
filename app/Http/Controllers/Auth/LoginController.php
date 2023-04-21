@@ -10,7 +10,7 @@ use Illuminate\Http\Response;
 
 class LoginController extends Controller
 {
-    public function __invoke(LoginRequest $request)
+    public function login(LoginRequest $request)
     {
         $email = $request->input('email');
         $password = $request->input('password');
@@ -18,7 +18,13 @@ class LoginController extends Controller
 
         $userManager = app(UserManager::class);
         $token = $userManager->auth($email, $password, $remember);
+        if ($token === 0) {
+            return response()->json(['error' => 'Почта не зарегистрирована'], 401);
+        }
+        if ($token === 1) {
+            return response()->json(['error' => 'Пароль неверный'], 401);
+        }
 
-        return (new Response(['Authorization','Bearer '.$token], 200))->header('Access-Control-Allow-Origin', '*');
-    }
+        return (new Response(['Authorization', 'Bearer ' . $token], 200))->header('Access-Control-Allow-Origin', '*');
+        }
 }

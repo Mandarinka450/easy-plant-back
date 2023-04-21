@@ -9,9 +9,9 @@ use App\Models\User;
 
 class RoleManager
 {
-    private User $user;
+    private ?User $user;
 
-    public function __construct(User $user)
+    public function __construct(?User $user = null)
     {
         $this->user = $user;
     }
@@ -23,6 +23,7 @@ class RoleManager
 
     public function giveExpertRole()
     {
+        $this->user->removeRole(Role::USER_ROLE);
         $this->user->assignRole(Role::EXPERT_ROLE);
     }
 

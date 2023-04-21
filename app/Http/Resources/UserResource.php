@@ -23,8 +23,8 @@ class UserResource extends JsonResource
             'email' => $this->resource->email,
             'image' => $this->resource->image,
             'description' => $this->resource->description,
-            'roles' => $this->resource->userRoles(),
-            'permissions' => $this->resource->userPermissions(),
+            // 'roles' => $this->resource->userRoles(),
+            // 'permissions' => $this->resource->userPermissions(),
         ];} else {
             return [];
         }

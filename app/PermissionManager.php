@@ -9,7 +9,7 @@ use App\Models\User;
 
 class PermissionManager
 {
-    private User $user;
+    private ?User $user;
 
     public function __construct(User $user)
     {

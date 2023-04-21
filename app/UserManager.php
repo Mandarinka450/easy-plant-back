@@ -28,9 +28,8 @@ class UserManager
         $this->user->password = Hash::make($data['password']);
         $this->user->save();
 
-        app(RoleManager::class, ['user' => $this->user])->giveUserRole();
-        app(PermissionManager::class, ['user' => $this->user])->giveUserPermissions();
-
+        // app(RoleManager::class, ['user' => $this->user])->giveUserRole();
+        // app(PermissionManager::class, ['user' => $this->user])->giveUserPermissions();
         return $this->user;
     }
 
@@ -38,27 +37,27 @@ class UserManager
     {
         $this->user = User::where('email', $email)->first();
 
-        if(!$this->user){
-            Log::info('User failed to login');
-        }
+        if($this->user == null){
+            return 0;
+        } else {
+            if(!Hash::check($password, optional($this->user)->password)){
+                return 1;
+            } else {
+                $ttl = env('JWT_TTL');
+                if ($remember == true)
+                {
+                    $ttl = env('JWT_REMEMBER_TTL');
+                }
 
-        if(!Hash::check($password, optional($this->user)->password)){
-            Log::info('User failed to login');
+                return auth()->setTTL($ttl)->login($this->user);
+            }
         }
-
-        $ttl = env('JWT_TTL');
-        if ($remember == true)
-        {
-            $ttl = env('JWT_REMEMBER_TTL');
-        }
-
-        return auth()->setTTL($ttl)->login($this->user);
     }
 
     public function logout(){
         auth()->logout();
     }
-
+    
     public function update(array $params): User
     {
         $this->user->update($params);
