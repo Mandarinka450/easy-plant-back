@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -78,5 +80,9 @@ class User extends Authenticatable implements JWTSubject
     //         return $permission;
     //     })->pluck('name', 'id')->toArray();
     // }
+
+    public function room():HasMany{
+        return $this->hasMany(Room::class);
+    }
 
 }

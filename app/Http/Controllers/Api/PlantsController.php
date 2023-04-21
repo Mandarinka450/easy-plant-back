@@ -19,4 +19,13 @@ class PlantsController extends Controller
     public function getPlantById($id){
         return Plant::where('id', $id)->get();
     }
+
+    /**
+     * find a plant in catalog
+     */
+
+    public function findPlant($plant){
+        $plants = Plant::where('name_rus', 'LIKE', "%{$plant}%")->get();
+        return $plants;
+    }
 }
