@@ -9,11 +9,19 @@ class Request extends Model
 {
     protected $fillable = [
         'user_id',
-        'name',
-        'surname',
         'title',
         'content',
         'status'
     ];
     use HasFactory;
+
+    public function advice(): HasOne
+    {
+        return $this->hasOne(Advice::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

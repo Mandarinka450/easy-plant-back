@@ -18,12 +18,13 @@ class CreateMyplantsTable extends Migration
             $table->foreignId('plant_id')->constrained('plants');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('room_id')->constrained('rooms');
-            $table->string('temperature');
-            $table->string('watering');
-            $table->string('sun');
-            $table->string('flowers');
-            $table->string('fertilizer');
-            $table->string('transfer');
+            $table->string('name');
+            // $table->string('temperature');
+            // $table->string('watering');
+            // $table->string('sun');
+            // $table->string('flowers');
+            // $table->string('fertilizer');
+            // $table->string('transfer');
             $table->timestamps();
         });
     }

@@ -3,11 +3,14 @@
 
 namespace App;
 
-
+use Carbon\Carbon;
 use App\PermissionManager;
 use App\RoleManager;
 use App\Models\User;
 use App\Models\Room;
+use App\Models\Plant;
+use App\Models\Law;
+use App\Models\Myplants;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,11 +20,17 @@ class UserManager
 {
     private ?User $user;
     private ?Room $room;
+    private ?Plant $plant;
+    private ?Law $law;
+    private ?Myplants $myplants;
 
-    public function __construct(?User $user = null, ?Room $room = null)
+    public function __construct(?User $user = null, ?Room $room = null, ?Myplants $myplants = null, ?Plant $plant = null, ?Law $law = null)
     {
         $this->user = $user;
         $this->room = $room;
+        $this->plant = $plant;
+        $this->law = $law;
+        $this->myplants = $myplants;
     }
 
     public function create(array $data): ?User
@@ -72,7 +81,7 @@ class UserManager
      * create rooms for user in profile
      */
 
-     public function createRoom($user, $room): ?Room
+    public function createRoom($user, $room): ?Room
     {
         $this->room = new Room;
         $this->room->user_id = $user;
@@ -88,5 +97,45 @@ class UserManager
         $this->room->delete();
 
         return $this->room;
+    }
+
+    /**
+     * add plant in table myplants
+     */
+
+    public function addPlant($user, $myplants): ?Myplants
+    {
+        $this->myplants = new Myplants;
+        $this->myplants->user_id = $user;
+        $this->myplants->fill($myplants);
+        $this->myplants->save();
+ 
+        return $this->myplants;
+    }
+
+    /**
+     * add law of an expert
+     */
+
+    public function createLaw($user, $law): ?Law
+    {
+        $this->law = new Law;
+        $this->law->user_id = $user;
+        $this->law->date_create = Carbon::now();
+        $this->law->fill($law);
+        $this->law->save();
+  
+        return $this->law;
+    }
+
+    /**
+     * delete MyPlants
+     */
+    public function delPlant($id): ?Myplants
+    {
+        $this->myplants = Myplants::where('id', $id)->first();
+        $this->myplants->delete();
+
+        return $this->myplants;
     }
 }

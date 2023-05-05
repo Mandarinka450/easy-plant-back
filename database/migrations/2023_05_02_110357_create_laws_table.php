@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRequestsTable extends Migration
+class CreateLawsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class CreateRequestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('requests', function (Blueprint $table) {
+        Schema::create('laws', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->text('title');
-            $table->text('content');
-            $table->enum('status', ['На проверке', 'Опубликовано', 'Отклонено'])->default('На проверке');
+            $table->text('science_degree');
+            $table->string('place_study', 255);
+            $table->text('about_me');
+            $table->text('image')->nullable();
+            $table->enum('status', ['На рассмотрении', 'Одобрено', 'Отказано']);
+            $table->date('date_create');
             $table->timestamps();
         });
     }
@@ -30,6 +33,6 @@ class CreateRequestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('requests');
+        Schema::dropIfExists('laws');
     }
 }

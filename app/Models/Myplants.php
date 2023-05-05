@@ -11,13 +11,29 @@ class Myplants extends Model
         'plant_id',
         'user_id',
         'room_id',
-        'temperature',
-        'watering',
-        'sun',
-        'flowers',
-        'fertilizer',
-        'transfer'
+        'name'
+        // 'temperature',
+        // 'watering',
+        // 'sun',
+        // 'flowers',
+        // 'fertilizer',
+        // 'transfer'
     ];
     
     use HasFactory;
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function plants()
+    {
+        return $this->belongsTo(Plant::class, 'plant_id');
+    }
+
+    public function rooms()
+    {
+        return $this->belongsTo(Room::class, 'room_id');
+    }
 }

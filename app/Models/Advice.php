@@ -9,11 +9,25 @@ class Advice extends Model
 {
     protected $fillable = [
         'request_id',
-        'name',
-        'surname',
+        'user_id',
         'title',
         'content',
         'date_publish'
     ];
+
+    protected $casts = [
+        'date_publish' => 'datetime:d.m.Y'
+    ];
+
     use HasFactory;
+
+    public function queries()
+    {
+        return $this->belongsTo(Query::class, 'request_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

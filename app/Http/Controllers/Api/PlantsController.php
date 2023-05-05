@@ -28,4 +28,16 @@ class PlantsController extends Controller
         $plants = Plant::where('name_rus', 'LIKE', "%{$plant}%")->get();
         return $plants;
     }
+
+    // public function find(Request $request){
+    //     $query = $request->input('q');
+    //     $plants = Plant::where('name_rus', 'like', "%$query%")->get(); 
+    //     return $plants; 
+
+    // }
+
+
+
+
+
 }
