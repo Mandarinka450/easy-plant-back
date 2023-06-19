@@ -24,18 +24,19 @@ class PlantsController extends Controller
      * find a plant in catalog
      */
 
-    public function findPlant($plant){
-        $plants = Plant::where('name_rus', 'LIKE', "%{$plant}%")->get();
+    public function findPlant($id, $plant){
+        if($plant) {
+            $plants = Plant::where('name_rus', 'LIKE', "%{$plant}%")->get();
+        }
+        else if (!$plant) {
+            $plants = Plant::where('category_id', $id)->get();
+        }
         return $plants;
     }
 
-    // public function find(Request $request){
-    //     $query = $request->input('q');
-    //     $plants = Plant::where('name_rus', 'like', "%$query%")->get(); 
-    //     return $plants; 
-
-    // }
-
+    public function plantIsEmpty($id){
+        return Plant::where('category_id', $id)->get();
+    }
 
 
 

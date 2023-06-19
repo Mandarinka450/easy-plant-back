@@ -19,6 +19,7 @@ class CreatePlantsTable extends Migration
             $table->string('name_rus');
             $table->string('name_eng');
             $table->text('image');
+            $table->text('view');
             $table->string('short_temperature');
             $table->string('short_watering');
             $table->string('short_sun');
@@ -32,6 +33,7 @@ class CreatePlantsTable extends Migration
             $table->text('fertilizer');
             $table->text('transfer');
             $table->text('diseases');
+            $table->bigInteger('air');
             $table->timestamps();
         });
     }

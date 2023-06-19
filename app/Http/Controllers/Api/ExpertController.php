@@ -34,4 +34,9 @@ class ExpertController extends Controller
         $queries = Query::where('user_id', Auth::id())->get();
         return $queries;       
     }
+
+    public function myAdvice(Request $request){
+        $advice = Advice::where('user_id', Auth::id())->get();
+        return $advice;
+    }
 }

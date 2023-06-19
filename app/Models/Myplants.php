@@ -36,4 +36,9 @@ class Myplants extends Model
     {
         return $this->belongsTo(Room::class, 'room_id');
     }
+
+    public function reminders(): HasMany
+    {
+        return $this->hasMany(Reminder::class);
+    }
 }

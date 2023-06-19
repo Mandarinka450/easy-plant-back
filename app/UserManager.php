@@ -9,8 +9,10 @@ use App\RoleManager;
 use App\Models\User;
 use App\Models\Room;
 use App\Models\Plant;
+use App\Models\Category;
 use App\Models\Law;
 use App\Models\Myplants;
+use App\Models\Reminder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -21,16 +23,20 @@ class UserManager
     private ?User $user;
     private ?Room $room;
     private ?Plant $plant;
+    private ?Category $category;
     private ?Law $law;
     private ?Myplants $myplants;
+    private ?Reminder $reminder;
 
-    public function __construct(?User $user = null, ?Room $room = null, ?Myplants $myplants = null, ?Plant $plant = null, ?Law $law = null)
+    public function __construct(?User $user = null, ?Room $room = null, ?Myplants $myplants = null, ?Plant $plant = null, ?Category $category = null, ?Law $law = null, ?Reminder $reminder = null)
     {
         $this->user = $user;
         $this->room = $room;
         $this->plant = $plant;
+        $this->category = $category;
         $this->law = $law;
         $this->myplants = $myplants;
+        $this->reminder = $reminder;
     }
 
     public function create(array $data): ?User
@@ -40,8 +46,8 @@ class UserManager
         $this->user->password = Hash::make($data['password']);
         $this->user->save();
 
-        // app(RoleManager::class, ['user' => $this->user])->giveUserRole();
-        // app(PermissionManager::class, ['user' => $this->user])->giveUserPermissions();
+        app(RoleManager::class, ['user' => $this->user])->giveUserRole();
+        app(PermissionManager::class, ['user' => $this->user])->giveUserPermissions();
         return $this->user;
     }
 
@@ -60,7 +66,6 @@ class UserManager
                 {
                     $ttl = env('JWT_REMEMBER_TTL');
                 }
-
                 return auth()->setTTL($ttl)->login($this->user);
             }
         }
@@ -138,4 +143,44 @@ class UserManager
 
         return $this->myplants;
     }
+
+    /**
+     * create remind for plants
+     */
+
+    public function createReminder($user, $reminder): ?Reminder
+    {
+        $this->reminder = new Reminder;
+        $this->reminder->user_id = $user;
+        $this->reminder->fill($reminder);
+        $this->reminder->save();
+  
+        return $this->reminder;
+    }
+
+    /**
+     * for postman
+     */
+
+    public function createCategories($category): ?Category
+    {
+        $this->category = new Category;
+        $this->category->fill($category);
+        $this->category->save();
+   
+        return $this->category;
+    }
+
+    public function createPlants($plant): ?Plant
+    {
+        $this->plant = new Plant;
+        $this->plant->fill($plant);
+        $this->plant->save();
+   
+        return $this->plant;
+    }
+
+
+
+
 }

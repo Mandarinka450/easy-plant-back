@@ -37,3 +37,9 @@ Route::get('/queries/three', 'App\Http\Controllers\Api\AdminController@queriesBy
 
  Route::match(['options', 'post'], '/add/advice', 'App\Http\Controllers\Api\AdminController@createAdvice')->middleware('cors');
 
+ /**
+ * add advice
+ */
+
+ Route::get('/user/{id}/giverole', 'App\Http\Controllers\Api\AdminController@giveRoleExpert')->middleware('cors');
+

@@ -13,6 +13,7 @@ class Plant extends Model
         'name_rus',
         'name_eng',
         'image',
+        'view',
         'short_temperature',
         'short_watering',
         'short_sun',
@@ -25,7 +26,8 @@ class Plant extends Model
         'temperature',
         'fertilizer',
         'transfer',
-        'diseases'
+        'diseases',
+        'air'
     ];
     use HasFactory;
 
@@ -37,5 +39,10 @@ class Plant extends Model
     public function myplants(): HasOne
     {
         return $this->hasOne(Myplants::class);
+    }
+
+    public function reminders(): HasOne
+    {
+        return $this->hasOne(Remind::class);
     }
 }

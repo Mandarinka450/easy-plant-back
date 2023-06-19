@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Advice extends Model
 {
     protected $fillable = [
-        'request_id',
+        'query_id',
         'user_id',
         'title',
         'content',
@@ -23,7 +23,7 @@ class Advice extends Model
 
     public function queries()
     {
-        return $this->belongsTo(Query::class, 'request_id');
+        return $this->belongsTo(Query::class, 'query_id');
     }
 
     public function users()

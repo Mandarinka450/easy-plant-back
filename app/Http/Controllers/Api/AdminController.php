@@ -56,17 +56,17 @@ class AdminController extends Controller
      */
     
     public function lawsByStatusOne() {
-        $laws = Law::where('status', '=', 'На рассмотрении')->get();
+        $laws = Law::where('status', '=', 'На рассмотрении')->with('users')->get();
         return $laws;
     }
 
     public function lawsByStatusTwo() {
-        $laws = Law::where('status', '=', 'Одобрено')->get();
+        $laws = Law::where('status', '=', 'Одобрено')->with('users')->get();
         return $laws;
     }
 
     public function lawsByStatusThree() {
-        $laws = Law::where('status', '=', 'Отказано')->get();
+        $laws = Law::where('status', '=', 'Отказано')->with('users')->get();
         return $laws;
     }
 
@@ -75,17 +75,17 @@ class AdminController extends Controller
      */
 
      public function queriesByStatusOne() {
-        $laws = Query::where('status', '=', 'На проверке')->get();
+        $laws = Query::where('status', '=', 'На проверке')->with('users')->get();
         return $laws;
     }
 
     public function queriesByStatusTwo() {
-        $laws = Query::where('status', '=', 'Опубликовано')->get();
+        $laws = Query::where('status', '=', 'Опубликовано')->with('users')->get();
         return $laws;
     }
 
     public function queriesByStatusThree() {
-        $laws = Query::where('status', '=', 'Отказано')->get();
+        $laws = Query::where('status', '=', 'Отказано')->with('users')->get();
         return $laws;
     }
 
@@ -114,6 +114,17 @@ class AdminController extends Controller
     public function createAdvice(Request $request){
         $advice = $this->manager->createAdvice(Auth::id(), $request->toArray());
         return $advice;
+    }
+
+    /**
+     * give role of expert for user
+     */
+
+    public function giveRoleExpert($id, Request $request){
+        $user = User::where('id', $id)->first();
+        $user->assignRole('expert');
+        $user->removeRole('user');
+        return $user;
     }
 
 

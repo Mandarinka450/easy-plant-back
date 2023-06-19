@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Room;
 use App\Models\Advice;
 use App\Models\Myplants;
+use App\Models\Reminder;
 use App\Models\Law;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -93,16 +94,20 @@ class UserController extends Controller
         return Myplants::where('id', $id)->with('plants')->get();
     }
 
+    public function roomByPlant($id){
+        return Myplants::where('id', $id)->with('rooms')->get();     
+    }
+
     /**
      * advice
      */
 
     public function getAllAdvice(){
-        return Advice::with('users')->get();
+        return Advice::with('users')->paginate(10);
     }
 
     public function getAdviceById($id){
-        return Advice::where('id', $id)->get();
+        return Advice::where('id', $id)->with('users')->get();
     }
 
     /**
@@ -137,6 +142,50 @@ class UserController extends Controller
         return $laws;       
     }
 
+    /**
+     * create reminder for plants
+     */
 
+    public function createReminder(Request $request){
+        $remind = $this->manager->createReminder(Auth::id(), $request->toArray());
+        return $remind;
+    }
+
+    /**
+     * show remind
+     */
+    public function remindByPlant($id){
+        $remind =  Reminder::where('myplant_id', $id)->get();
+        return $remind;
+    }
+
+    public function getReminders(){
+        $reminds =  Reminder::where('user_id', Auth::id())->where('show', '=', '1')->with('plant')->with('myplants')->get();
+        return $reminds;
+    }
+
+    /**
+     * for postman
+     */
+
+    public function createCategories(Request $request){
+        $categories = $this->manager->createCategories($request->toArray());
+        return $categories;
+    }
+
+    public function createPlants(Request $request){
+        $plants = $this->manager->createPlants($request->toArray());
+        return $plants;
+    }
+
+    /**
+     * update reminder
+     */
+     
+    public function updateMyRemind($id, Request $request){
+        $remind = Reminder::where('id', $id)->update($request->all());
+        return $remind;
+    }
+    
 
 }

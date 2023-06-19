@@ -67,19 +67,19 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    // public function userRoles(): array
-    // {
-    //     return $this->roles->transform(function (\Spatie\Permission\Models\Role $role) {
-    //         return $role;
-    //     })->pluck('name', 'id')->toArray();
-    // }
+    public function userRoles(): array
+    {
+        return $this->roles->transform(function (\Spatie\Permission\Models\Role $role) {
+            return $role;
+        })->pluck('name', 'id')->toArray();
+    }
 
-    // public function userPermissions(): array
-    // {
-    //     return $this->getAllPermissions()->transform(function (\Spatie\Permission\Models\Permission $permission) {
-    //         return $permission;
-    //     })->pluck('name', 'id')->toArray();
-    // }
+    public function userPermissions(): array
+    {
+        return $this->getAllPermissions()->transform(function (\Spatie\Permission\Models\Permission $permission) {
+            return $permission;
+        })->pluck('name', 'id')->toArray();
+    }
 
     public function room():HasMany{
         return $this->hasMany(Room::class);
@@ -103,6 +103,11 @@ class User extends Authenticatable implements JWTSubject
     public function laws(): HasMany
     {
         return $this->hasMany(Law::class);
+    }
+
+    public function reminders(): HasMany
+    {
+        return $this->hasMany(Reminder::class);
     }
 
 }

@@ -21,11 +21,13 @@ class AdminManager{
 
     private ?User $user;
     private ?Advice $advice;
+    private ?Query $query;
 
-    public function __construct(?User $user = null, ?Advice $advice = null)
+    public function __construct(?User $user = null, ?Advice $advice = null, ?Query $query = null)
     {
         $this->user = $user;
         $this->advice = $advice;
+        $this->query = $query;
         
     }
 
@@ -39,6 +41,8 @@ class AdminManager{
 
         return $this->advice;
     }
+
+    
 
 
 }

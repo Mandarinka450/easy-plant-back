@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoomsTable extends Migration
+class CreateRemindersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateRoomsTable extends Migration
      */
     public function up()
     {
-        Schema::create('rooms', function (Blueprint $table) {
+        Schema::create('reminders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->string('name', 55);
-            $table->bigInteger('temperature');
-            $table->bigInteger('air_humidity');
+            $table->foreignId('myplant_id')->constrained('myplants');
+            $table->foreignId('plant_id')->constrained('plants');
+            $table->string('comment');
+            $table->dateTime('date_remind');
+            $table->enum('show', [0, 1])->default(0);
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ class CreateRoomsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rooms');
+        Schema::dropIfExists('reminders');
     }
 }
